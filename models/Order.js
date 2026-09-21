@@ -34,6 +34,14 @@ const orderSchema = new mongoose.Schema(
             required: true
         },
 
+        // Short token shown to the customer
+        // Example: T001, T002, T003
+        tokenId: {
+            type: String,
+            unique: true,
+            required: true
+        },
+
         items: {
             type: [orderItemSchema],
             required: true

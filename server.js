@@ -377,15 +377,22 @@ app.post("/api/orders", async (req, res) => {
             });
         }
 
+        // Generate sequential token ID
+        const orderCount = await Order.countDocuments();
+        const tokenId = "T" + String(orderCount + 1).padStart(3, "0");
+
         // Create order from cart
         const order = await Order.create({
             user: userId,
+            tokenId: tokenId,
+
             items: cart.items.map(item => ({
                 menuItem: item.menuItem,
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity
             })),
+
             totalAmount: cart.totalAmount,
             paymentMethod: paymentMethod,
             paymentStatus: "Pending",
